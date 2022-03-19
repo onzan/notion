@@ -27,7 +27,7 @@
         justify-content: center;
         align-items: center;
         /* background: url(../img/clock-face.svg), #fafafa; */
-        background: url(img/clock-face.svg), white;
+        background: url(../img/clock-face.svg), white;
         background-size: cover;
         border: 0.3rem solid #5f6368;
         border-radius: 50%;
@@ -43,52 +43,34 @@
         border-radius: 50%;
         z-index: 10000;
       }
-      .clock .hour,
+      .clock .second,
       .clock .minute,
-      .clock .second {
+      .clock .hour {
         position: absolute;
-      }
-      .clock .hour,
-      .hr {
-        width: 8rem;
-        height: 8rem;
-      }
-      .clock .minute,
-      .min {
-        width: 12rem;
-        height: 12rem;
       }
       .clock .second,
       .sec {
         width: 12rem;
         height: 12rem;
       }
-      .hr,
+      .clock .minute,
+      .min {
+        width: 12rem;
+        height: 12rem;
+      }
+      .clock .hour,
+      .hr {
+        width: 8rem;
+        height: 8rem;
+      }
+      .sec,
       .min,
-      .sec {
+      .hr {
         display: flex;
         justify-content: center;
         /* align-items: center; */
         position: absolute;
         border-radius: 50%;
-      }
-      .hr::before {
-        content: '';
-        position: absolute;
-        width: 0.2rem;
-        height: 5rem;
-        background: #5f6368;
-        z-index: 10;
-        border-radius: 0.2rem 0.2rem 0 0;
-      }
-      .min::before {
-        content: '';
-        position: absolute;
-        width: 0.2rem;
-        height: 7rem;
-        background: #5f6368;
-        z-index: 11;
-        border-radius: 0.2rem 0.2rem 0 0;
       }
       .sec::before {
         content: '';
@@ -99,36 +81,56 @@
         /* background: #c93d35; */
         z-index: 12;
       }
+      .min::before {
+        content: '';
+        position: absolute;
+        width: 0.2rem;
+        height: 7rem;
+        background: #5f6368;
+        z-index: 11;
+        border-radius: 0.2rem 0.2rem 0 0;
+      }
+      .hr::before {
+        content: '';
+        position: absolute;
+        width: 0.2rem;
+        height: 5rem;
+        background: #5f6368;
+        z-index: 10;
+        border-radius: 0.2rem 0.2rem 0 0;
+      }
     </style>
   </head>
   <body>
     <div class="clock">
-      <div class="hour">
-        <div id="hr" class="hr"></div>
+      <div class="second">
+        <div id="sec" class="sec"></div>
       </div>
       <div class="minute">
         <div id="min" class="min"></div>
       </div>
-      <div class="second">
-        <div id="sec" class="sec"></div>
+      <div class="hour">
+        <div id="hr" class="hr"></div>
       </div>
     </div>
     <!-- <script type="text/javascript" src="analog-clock.js"></script> -->
     <script type="text/javascript">
-      const deg = 6;
-      const hr = document.querySelector('#hr');
-      const min = document.querySelector('#min');
       const sec = document.querySelector('#sec');
+      const min = document.querySelector('#min');
+      const hr = document.querySelector('#hr');
+      // 分・秒針の角度 360/60
+      const deg = 6;
 
       setInterval(() => {
         let day = new Date();
-        let hh = day.getHours() * 30;
-        let mm = day.getMinutes() * deg;
         let ss = day.getSeconds() * deg;
+        let mm = day.getMinutes() * deg;
+        // 時針の角度 時 * (360/12) + 分針の傾き/12
+        let hh = day.getHours() * 30 + mm / 12;
 
-        hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
-        min.style.transform = `rotateZ(${mm}deg)`;
         sec.style.transform = `rotateZ(${ss}deg)`;
+        min.style.transform = `rotateZ(${mm}deg)`;
+        hr.style.transform = `rotateZ(${hh}deg)`;
       }, 1000);
     </script>
   </body>
