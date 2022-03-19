@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analog Clock - Simple01</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        font-size: 62.5%;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .clock {
+        width: 17rem;
+        height: 17rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url(img/clock-face.svg), #fafafa;
+        background-size: cover;
+        border-radius: 50%;
+        box-shadow: 0 -1rem 1rem rgba(red, green, blue, 0.05);
+      }
+
+      .clock::before {
+        content: '';
+        position: absolute;
+        width: 0.7rem;
+        height: 0.7rem;
+        background: #5f6368;
+        border-radius: 50%;
+        z-index: 10000;
+      }
+      .clock .second,
+      .clock .minute,
+      .clock .hour {
+        position: absolute;
+      }
+      .clock .second,
+      .sec {
+        width: 12rem;
+        height: 12rem;
+      }
+      .clock .minute,
+      .min {
+        width: 12rem;
+        height: 12rem;
+      }
+      .clock .hour,
+      .hr {
+        width: 8rem;
+        height: 8rem;
+      }
+      .sec,
+      .min,
+      .hr {
+        display: flex;
+        justify-content: center;
+        /* align-items: center; */
+        position: absolute;
+        border-radius: 50%;
+      }
+      .sec::before {
+        content: '';
+        position: absolute;
+        width: 0.1rem;
+        height: 7rem;
+        background: rgba(201, 61, 53, 0.75);
+        /* background: #c93d35; */
+        z-index: 12;
+      }
+      .min::before {
+        content: '';
+        position: absolute;
+        width: 0.2rem;
+        height: 7rem;
+        background: #5f6368;
+        z-index: 11;
+        border-radius: 0.2rem 0.2rem 0 0;
+      }
+      .hr::before {
+        content: '';
+        position: absolute;
+        width: 0.2rem;
+        height: 5rem;
+        background: #5f6368;
+        z-index: 10;
+        border-radius: 0.2rem 0.2rem 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="clock">
+      <div class="second">
+        <div id="sec" class="sec"></div>
+      </div>
+      <div class="minute">
+        <div id="min" class="min"></div>
+      </div>
+      <div class="hour">
+        <div id="hr" class="hr"></div>
+      </div>
+    </div>
+    <!-- <script type="text/javascript" src="analog-clock.js"></script> -->
+    <script type="text/javascript">
+      const sec = document.querySelector('#sec');
+      const min = document.querySelector('#min');
+      const hr = document.querySelector('#hr');
+      // 分・秒針の角度 360/60
+      const deg = 6;
+
+      setInterval(() => {
+        let day = new Date();
+        let ss = day.getSeconds() * deg;
+        let mm = day.getMinutes() * deg;
+        // 時針の角度 時 * (360/12) + 分針の傾き/12
+        let hh = day.getHours() * 30 + mm / 12;
+
+        sec.style.transform = `rotateZ(${ss}deg)`;
+        min.style.transform = `rotateZ(${mm}deg)`;
+        hr.style.transform = `rotateZ(${hh}deg)`;
+      }, 1000);
+    </script>
+  </body>
+</html>
